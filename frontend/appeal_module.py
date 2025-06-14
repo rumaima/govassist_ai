@@ -1,0 +1,1 @@
+def handle_appeal(name, appeal, flag): return 'Appeal submitted.'

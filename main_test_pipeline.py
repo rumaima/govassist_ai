@@ -1,0 +1,1 @@
+print('This script runs the pipeline for testing.')

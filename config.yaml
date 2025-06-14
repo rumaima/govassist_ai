@@ -1,0 +1,2 @@
+db_name: govassist
+model_path: models/eligibility_model.pkl
