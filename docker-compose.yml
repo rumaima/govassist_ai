@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  govassist:
+    build: .
+    ports:
+      - "7860:7860"
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/govassist
+      - OLLAMA_API=http://ollama:11434
+    networks:
+      - govassist_net
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: govassist
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - govassist_net
+
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    networks:
+      - govassist_net
+
+volumes:
+  pgdata:
+  ollama:
+
+networks:
+  govassist_net:
+    driver: bridge
