@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 
 services:
   govassist:
@@ -7,40 +7,33 @@ services:
       - "7860:7860"
     volumes:
       - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - OLLAMA_URL=http://ollama:11434  # <-- Add this
     depends_on:
       - postgres
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@postgres:5432/govassist
-      - OLLAMA_API=http://ollama:11434
-    networks:
-      - govassist_net
+      - ollama  # <-- Ensure ollama starts before govassist
 
   postgres:
     image: postgres:15
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: govassist
+    restart: always
     ports:
       - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: govassist
     volumes:
       - pgdata:/var/lib/postgresql/data
-    networks:
-      - govassist_net
 
   ollama:
     image: ollama/ollama
     ports:
       - "11434:11434"
+    restart: unless-stopped
     volumes:
-      - ollama:/root/.ollama
-    networks:
-      - govassist_net
+      - ollama-data:/root/.ollama  # optional: persist model cache
 
 volumes:
   pgdata:
-  ollama:
-
-networks:
-  govassist_net:
-    driver: bridge
+  ollama-data:

@@ -1,62 +1,59 @@
+# data_extraction_agent.py
 import os
 import fitz  # PyMuPDF
 import pandas as pd
-import easyocr
-import re
 
 class DataExtractionAgent:
     def __init__(self):
-        self.ocr_reader = easyocr.Reader(['en'])
+        pass
 
-    def extract_from_emirates_id(self, image_path):
-        result = self.ocr_reader.readtext(image_path, detail=0)
-        ocr_text = " ".join(result)
-        return {
-            "full_name": self.extract_name(ocr_text),
-            "id_number": self.extract_id(ocr_text)
-        }
+    def extract_text_from_txt(self, path):
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"❌ File not found: {path}")
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return f.read().strip()
+        except Exception as e:
+            raise ValueError(f"❌ Error reading TXT file: {e}")
 
-    def extract_from_pdf(self, pdf_path):
-        doc = fitz.open(pdf_path)
-        text = " ".join([page.get_text() for page in doc])
-        return text
+    def extract_data_from_excel(self, path):
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"❌ File not found: {path}")
+        try:
+            df = pd.read_excel(path)
+            return df.to_dict(orient="records")
+        except Exception as e:
+            raise ValueError(f"❌ Error reading Excel: {e}")
 
-    def extract_from_excel(self, excel_path):
-        df = pd.read_excel(excel_path)
-        return df.to_dict(orient='records')
+    def route_files(self, file_paths):
+        file_dict = {}
+        for path in file_paths:
+            fname = os.path.basename(path).lower()
+            if "emirates" in fname:
+                file_dict["emirates_id"] = path
+            elif "bank" in fname:
+                file_dict["bank_statement"] = path
+            elif "resume" in fname:
+                file_dict["resume"] = path
+            elif "credit" in fname:
+                file_dict["credit_report"] = path
+            elif "asset" in fname or "liability" in fname:
+                file_dict["assets_and_liabilities"] = path
+        return file_dict
 
-    def extract_income(self, text):
-        matches = re.findall(r"(?:AED|Dirhams|Dhs)?\s?(\d{4,6})", text)
-        return max(map(int, matches)) if matches else None
+    def extract(self, file_paths):
+        file_dict = self.route_files(file_paths)
 
-    def extract_name(self, text):
-        match = re.search(r"Name[:\-]?\s*([A-Z][a-z]+\s[A-Z][a-z]+)", text)
-        return match.group(1) if match else "Unknown"
+        required = ["emirates_id", "bank_statement", "resume", "credit_report", "assets_and_liabilities"]
+        missing = [f for f in required if f not in file_dict]
+        if missing:
+            raise ValueError(f"⚠️ Missing required files: {', '.join(missing)}")
 
-    def extract_id(self, text):
-        match = re.search(r"\b784-\d{4}-\d{7}-\d\b", text)
-        return match.group(0) if match else "Unknown"
-
-    def process_application(self, file_dict):
         output = {}
-
-        if 'emirates_id' in file_dict:
-            output['emirates_id_info'] = self.extract_from_emirates_id(file_dict['emirates_id'])
-
-        if 'resume' in file_dict:
-            resume_text = self.extract_from_pdf(file_dict['resume'])
-            output['resume_text'] = resume_text
-            output['extracted_name'] = self.extract_name(resume_text)
-
-        if 'bank_statement' in file_dict:
-            bank_text = self.extract_from_pdf(file_dict['bank_statement'])
-            output['estimated_income'] = self.extract_income(bank_text)
-
-        if 'assets_file' in file_dict:
-            output['assets_info'] = self.extract_from_excel(file_dict['assets_file'])
-
-        if 'credit_report' in file_dict:
-            credit_text = self.extract_from_pdf(file_dict['credit_report'])
-            output['credit_income'] = self.extract_income(credit_text)
+        output["emirates_id_text"] = self.extract_text_from_txt(file_dict["emirates_id"])
+        output["bank_statement_text"] = self.extract_text_from_txt(file_dict["bank_statement"])
+        output["resume_text"] = self.extract_text_from_txt(file_dict["resume"])
+        output["credit_report_text"] = self.extract_text_from_txt(file_dict["credit_report"])
+        output["assets_info"] = self.extract_data_from_excel(file_dict["assets_and_liabilities"])
 
         return output

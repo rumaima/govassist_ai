@@ -4,11 +4,13 @@ from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunct
 
 class EnablementAgent:
     def __init__(self):
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        model_name = "all-MiniLM-L6-v2"
+        self.model = SentenceTransformer(model_name)
+
         self.chroma_client = chromadb.Client()
         self.collection = self.chroma_client.create_collection(
             name="jobs",
-            embedding_function=SentenceTransformerEmbeddingFunction(self.model)
+            embedding_function=SentenceTransformerEmbeddingFunction(model_name=model_name)
         )
         self._populate_jobs()
 
@@ -29,14 +31,18 @@ class EnablementAgent:
             )
 
     def recommend(self, resume_text, top_k=3):
+        if not resume_text.strip():
+            return []
+
         results = self.collection.query(
             query_texts=[resume_text],
             n_results=top_k
         )
+
         return [
             {
-                "job_title": res["metadata"]["title"],
-                "relevance": round(res["distance"], 2)
+                "job_title": meta["title"],
+                "relevance": round(dist, 2)
             }
-            for res in zip(results["metadatas"][0], results["distances"][0])
-        ]
+            for meta, dist in zip(results["metadatas"][0], results["distances"][0])
+    ]
