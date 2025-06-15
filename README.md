@@ -48,8 +48,7 @@ cd govassist_app
 ```
 ### 2. Run `requirements.txt`
 
-```
-bash
+```bash
 pip install -r requirements.txt
 ```
 
