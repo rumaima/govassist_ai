@@ -1,5 +1,5 @@
 
-# 🤖 GovAssist AI: Automated Social Support Eligibility System
+# GovAssist AI: Automated Social Support Eligibility System
 
 GovAssist AI is an intelligent assistant for government social support programs. It takes user-provided information (forms and documents) and uses LLMs and rule-based logic to extract data, validate it, assess eligibility, and recommend next steps.
 
@@ -43,11 +43,17 @@ Suggests possible job titles or government programs based on resume content usin
 ### 1. Clone and Enter Project Folder
 
 ```bash
-git clone https://github.com/your-org/govassist_ai.git
-cd govassist_ai
+git clone https://github.com/your-org/govassist_app.git
+cd govassist_app
+```
+### 2. Run `requirements.txt`
+
+```
+bash
+pip install -r requirements.txt
 ```
 
-### 2. Create `Dockerfile`
+### 3. Create `Dockerfile`
 
 ```Dockerfile
 # Dockerfile
@@ -59,23 +65,12 @@ EXPOSE 7860
 CMD ["python", "frontend_app.py"]
 ```
 
-### 3. Create `requirements.txt`
-
-```txt
-gradio
-langgraph
-langchain
-scikit-learn
-pandas
-openpyxl
-ollama
-```
-
 ### 4. Build and Run Container
 
 ```bash
-docker build -t govassist-ai .
-docker run -p 7860:7860 -e OLLAMA_URL=http://host.docker.internal:11434 -e OLLAMA_MODEL=llama3 govassist-ai
+docker build -t govassist_app .
+docker run -p 7860:7860 -e OLLAMA_URL=http://host.docker.internal:11434 -e OLLAMA_MODEL=llama3 govassist_app
+docker logs -f govassist_app
 ```
 
 Make sure `ollama` is installed and running on your host machine:
@@ -90,7 +85,7 @@ ollama run llama3
 Go to `http://localhost:7860` and:
 1. Fill in the form.
 2. Upload required documents (.txt and .xlsx).
-3. Click Submit — get automated analysis, validation issues, eligibility result, and support suggestions.
+3. Click on the button Submit for Evaluation to get automated analysis, validation issues, eligibility result, and support suggestions.
 
 ---
 
@@ -101,5 +96,3 @@ Go to `http://localhost:7860` and:
 - Designed for modularity — swap agents or models as needed.
 
 ---
-
-MIT License.
