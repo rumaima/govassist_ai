@@ -1,0 +1,9 @@
+Bank Statement - April 2025
+Account Holder: Ali Al Mansoori
+Monthly Income: AED 4500
+Account Number: 1234567890123
+Bank: Abu Dhabi Islamic Bank
+Recent Transactions:
+ - Government Support Transfer: AED 3000
+ - Grocery Expenses: AED -1200
+ - Utility Bill: AED -600

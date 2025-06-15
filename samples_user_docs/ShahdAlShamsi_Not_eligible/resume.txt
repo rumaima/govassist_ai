@@ -1,0 +1,16 @@
+Shahd Al Shamsi
+AI Research Scientist | Computer Vision & Healthcare | Python, PyTorch, LLMs
+
+Summary:
+A driven researcher with expertise in vision-language models and out-of-distribution generalization in medical imaging. Published across top venues and experienced in interdisciplinary AI for good.
+
+Experience:
+- Research Intern, AI for Good Lab
+- PhD Candidate, MBZUAI (2020–2025)
+
+Education:
+- PhD in Computer Vision, MBZUAI
+- BSc in Computer Science, NUST
+
+Skills:
+Deep Learning, LangChain, Transformers, Docker, Gradio, CLIP, MedCLIP, OOD Detection

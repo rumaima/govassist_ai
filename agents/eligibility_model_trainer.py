@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 import joblib
 import os
 
-# Sample data generation (replace this with your real data later)
+# Reproducibility
 np.random.seed(42)
 n_samples = 200
 
@@ -17,12 +17,13 @@ data = {
     "resume_len": np.random.randint(50, 5000, size=n_samples),
 }
 
-# Simple rule: if income high, resume decent, and employed => likely eligible
+# NEW logic: simulate social aid rules
 data["eligible"] = (
-    (data["income"] > 8000) &
-    (data["asset_value"] > 100000) &
-    (data["employment_status"] == 1) &
-    (data["resume_len"] > 200)
+    (data["income"] <= 6000) &
+    (data["employment_status"] == 0) &
+    (data["asset_value"] <= 50000) &
+    (data["family_size"] >= 3) &
+    (data["resume_len"] > 150)
 ).astype(int)
 
 df = pd.DataFrame(data)

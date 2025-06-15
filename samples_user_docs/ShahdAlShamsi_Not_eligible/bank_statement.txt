@@ -1,0 +1,8 @@
+Bank Statement - April 2025
+Account Holder: Shahd Al Shamsi
+Monthly Income: AED 12000
+Account Number: 0123456789012
+Bank: Emirates NBD
+Recent Transactions:
+ - Salary Credit: AED 12000
+ - Rent Payment: AED -4000

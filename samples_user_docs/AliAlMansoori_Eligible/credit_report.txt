@@ -1,0 +1,7 @@
+Credit Report Summary
+Name: Ali Al Mansoori
+Credit Score: 620
+Reported Income: AED 4500
+Debts: AED 0
+Accounts:
+ - None active

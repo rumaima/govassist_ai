@@ -1,0 +1,8 @@
+Credit Report Summary
+Name: Shahd Al Shamsi
+Credit Score: 745
+Reported Income: AED 11800
+Debts: AED 5000
+Accounts:
+ - Credit Card: AED 2000
+ - Car Loan: AED 3000
