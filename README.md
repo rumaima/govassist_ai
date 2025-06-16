@@ -50,9 +50,9 @@ cd govassist_ai
 ### 2. Build and Run Container
 
 ```bash
-docker build -t govassist_ai .
-docker run -p 7860:7860 -e OLLAMA_URL=http://host.docker.internal:11434 -e OLLAMA_MODEL=llama3 govassist_ai
-docker logs -f govassist_ai
+docker build -t govassist_cuda .
+docker run -dit --gpus all --network ollama-net -e OLLAMA_URL=http://ollama:11434 -e OLLAMA_MODEL=llama3 -p 7860:7860 --name govassist_app govassist_cuda
+docker logs -f govassist_app
 ```
 
 Make sure `ollama` is installed and running on your host machine:
