@@ -43,16 +43,16 @@ Suggests possible job titles or government programs based on resume content usin
 ### 1. Clone and Enter Project Folder
 
 ```bash
-git clone https://github.com/your-org/govassist_app.git
-cd govassist_app
+git clone https://github.com/your-org/govassist_ai.git
+cd govassist_ai
 ```
 
 ### 2. Build and Run Container
 
 ```bash
-docker build -t govassist_app .
-docker run -p 7860:7860 -e OLLAMA_URL=http://host.docker.internal:11434 -e OLLAMA_MODEL=llama3 govassist_app
-docker logs -f govassist_app
+docker build -t govassist_ai .
+docker run -p 7860:7860 -e OLLAMA_URL=http://host.docker.internal:11434 -e OLLAMA_MODEL=llama3 govassist_ai
+docker logs -f govassist_ai
 ```
 
 Make sure `ollama` is installed and running on your host machine:
