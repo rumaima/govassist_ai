@@ -65,7 +65,7 @@ ollama run llama3
 ## ✅ Example Usage
 
 Go to `http://localhost:7860` and:
-1. Fill in the form.
+1. Fill in the applicant details.
 2. Upload required documents (.txt and .xlsx).
 3. Click on the button Submit for Evaluation to get automated analysis, validation issues, eligibility result, and support suggestions.
 
@@ -76,5 +76,6 @@ Go to `http://localhost:7860` and:
 - Compatible with local Ollama LLM inference.
 - Can be extended with LangGraph + LangSmith tracing.
 - Designed for modularity — swap agents or models as needed.
+- Samples of two users present under the folder 'samples_user_docs'
 
 ---
