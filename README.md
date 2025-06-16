@@ -46,25 +46,8 @@ Suggests possible job titles or government programs based on resume content usin
 git clone https://github.com/your-org/govassist_app.git
 cd govassist_app
 ```
-### 2. Run `requirements.txt`
 
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Create `Dockerfile`
-
-```Dockerfile
-# Dockerfile
-FROM python:3.10-slim
-WORKDIR /app
-COPY . /app
-RUN pip install --no-cache-dir -r requirements.txt
-EXPOSE 7860
-CMD ["python", "frontend_app.py"]
-```
-
-### 4. Build and Run Container
+### 2. Build and Run Container
 
 ```bash
 docker build -t govassist_app .
